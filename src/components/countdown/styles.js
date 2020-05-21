@@ -13,7 +13,7 @@ export function responsive(size) {
   }
 }
 
-export const View = styled.TouchableOpacity`
+export const View = styled.View`
   flex: 1;
   background-color: #000;
   justify-content: center;
