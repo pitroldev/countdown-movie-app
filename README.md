@@ -7,6 +7,4 @@
 
 # Description:
 
-An identical copy of App from the Countdown Movie made with React Native in 1 day.
-
-
+An identical copy of App from the Countdown Movie made with React Native.

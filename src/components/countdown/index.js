@@ -27,7 +27,6 @@ class CountdownTimer extends Component {
   };
 
   componentDidMount() {
-    // this.AskPermission();
     BackgroundTimer.setTimeout(() => this.setState({loading: true}), 2000);
     this.getTimeToDeath();
     BackgroundTimer.setTimeout(() => this.playScream(), 10000);
@@ -89,17 +88,23 @@ class CountdownTimer extends Component {
 
   randomScreamTime = (FinalHour) => {
     if (FinalHour) {
-      return Math.floor(Math.random() * 5000);
+      return Math.floor(Math.random() * 7000);
     }
     return Math.floor(Math.random() * 100000);
   };
 
   checkTimeToSound = () => {
-    const {years, days, playing, hour, retrieved} = this.state;
-    if (years === 0 && days === 0 && !playing && !retrieved) {
-      console.log('is close');
-      if (hour === 0) {
-        console.log('final hour');
+    const {years, days, minutes, retrieved, seconds} = this.state;
+    if (years === 0 && days === 0 && retrieved) {
+      if (minutes < 10) {
+        if (seconds < 2) {
+          BackgroundTimer.setTimeout(async () => {
+            this.NotificationAtt(':)');
+
+            await AsyncStorage.removeItem('@TimeToDeath');
+            return BackgroundTimer.clearInterval(this.interval);
+          }, 0);
+        }
         const time = this.randomScreamTime(true);
         this.setState({playing: true});
         const waiting = BackgroundTimer.setTimeout(() => {
@@ -285,6 +290,8 @@ class CountdownTimer extends Component {
   };
 
   render() {
+    const now = new Date();
+    now.setSeconds(now.getSeconds() + 15);
     if (!this.state.loading) {
       return (
         <LoadingView>
