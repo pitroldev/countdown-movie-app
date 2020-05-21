@@ -290,8 +290,6 @@ class CountdownTimer extends Component {
   };
 
   render() {
-    const now = new Date();
-    now.setSeconds(now.getSeconds() + 15);
     if (!this.state.loading) {
       return (
         <LoadingView>
