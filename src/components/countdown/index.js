@@ -76,14 +76,16 @@ class CountdownTimer extends Component {
   }
 
   playScream = () => {
-    const Sound = require('react-native-sound');
-    Sound.setCategory('Playback');
+    if (!this.state.playing) {
+      const Sound = require('react-native-sound');
+      Sound.setCategory('Playback');
 
-    const scream = new Sound('scream.mp3', Sound.MAIN_BUNDLE, () => {
-      scream.setVolume(0.5);
-      scream.play();
-    });
-    return this.setState({playing: false});
+      const scream = new Sound('scream.mp3', Sound.MAIN_BUNDLE, () => {
+        scream.setVolume(0.5);
+        scream.play();
+      });
+      return this.setState({playing: false});
+    }
   };
 
   randomScreamTime = (FinalHour) => {
