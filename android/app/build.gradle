@@ -132,8 +132,9 @@ android {
         applicationId "com.countdownmovieapp"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
+        project.ext.set("archivesBaseName", "countdown-movie-app-" + defaultConfig.versionName);
     }
     splits {
         abi {
