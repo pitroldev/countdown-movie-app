@@ -19,17 +19,17 @@ class CountdownTimer extends Component {
     TimeToDeath: Date,
     playing: false,
     retrieved: false,
-    years: 0,
-    days: 0,
-    hours: 10,
-    minutes: 25,
-    seconds: 19,
+    years: Number,
+    days: Number,
+    hours: Number,
+    minutes: Number,
+    seconds: Number,
   };
 
   componentDidMount() {
     BackgroundTimer.setTimeout(() => this.setState({loading: true}), 2000);
     this.getTimeToDeath();
-    BackgroundTimer.setTimeout(() => this.playScream(), 10000);
+    BackgroundTimer.setTimeout(() => this.playScream(), 30000);
     this.interval = BackgroundTimer.setInterval(() => this.EndTime(), 1000);
   }
 
@@ -63,7 +63,6 @@ class CountdownTimer extends Component {
 
   NotificationAtt(message) {
     const PushNotification = require('react-native-push-notification');
-
     PushNotification.localNotification({
       vibration: 1500,
       message,
@@ -77,6 +76,7 @@ class CountdownTimer extends Component {
 
   playScream = () => {
     if (!this.state.playing) {
+      this.setState({playing: true});
       const Sound = require('react-native-sound');
       Sound.setCategory('Playback');
 
@@ -108,14 +108,12 @@ class CountdownTimer extends Component {
           }, 0);
         }
         const time = this.randomScreamTime(true);
-        this.setState({playing: true});
         const waiting = BackgroundTimer.setTimeout(() => {
           this.playScream();
         }, time);
         return waiting;
       }
       const time = this.randomScreamTime();
-      this.setState({playing: true});
       const waiting = BackgroundTimer.setTimeout(() => {
         this.playScream();
       }, time);
@@ -129,7 +127,7 @@ class CountdownTimer extends Component {
       const TimeToDeath = new Date(JSON.parse(storage));
       BackgroundTimer.setTimeout(
         () => this.NotificationAtt('User agreement broken'),
-        600000,
+        300000,
       );
       if (storage === null || storage === undefined) {
         throw new Error();
