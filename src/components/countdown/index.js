@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-// import {PermissionsAndroid} from 'react-native';
+import {PermissionsAndroid} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   View,
@@ -15,10 +15,10 @@ import {UIActivityIndicator} from 'react-native-indicators';
 
 class CountdownTimer extends Component {
   state = {
-    loading: false,
-    TimeToDeath: Date,
+    loading: true,
     playing: false,
     retrieved: false,
+    TimeToDeath: Date,
     years: Number,
     days: Number,
     hours: Number,
@@ -27,39 +27,33 @@ class CountdownTimer extends Component {
   };
 
   componentDidMount() {
-    BackgroundTimer.setTimeout(() => this.setState({loading: true}), 2000);
+    this.AskPermission();
     this.getTimeToDeath();
     BackgroundTimer.setTimeout(() => this.playScream(), 30000);
     this.interval = BackgroundTimer.setInterval(() => this.EndTime(), 1000);
   }
 
-  // AskPermission = async () => {
-  //   try {
-  //     const camera = await PermissionsAndroid.request(
-  //       PermissionsAndroid.PERMISSIONS.CAMERA,
-  //     );
-  //     const microphone = await PermissionsAndroid.request(
-  //       PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-  //     );
-  //     const location = await PermissionsAndroid.request(
-  //       PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-  //     );
-  //     if (
-  //       camera === PermissionsAndroid.RESULTS.GRANTED &&
-  //       microphone === PermissionsAndroid.RESULTS.GRANTED &&
-  //       location === PermissionsAndroid.RESULTS.GRANTED
-  //     ) {
-  //       console.log('Camera permission top');
-  //       this.setState({loading: true});
-  //     } else {
-  //       console.log('Camera permission denied');
-  //       await AsyncStorage.removeItem('@TimeToDeath');
-  //       this.getTimeToDeath();
-  //     }
-  //   } catch (err) {
-  //     console.warn(err);
-  //   }
-  // };
+  componentWillUnmount() {
+    BackgroundTimer.clearInterval(this.interval);
+  }
+
+  AskPermission = async () => {
+    try {
+      await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
+      await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      );
+      await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+      );
+      await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+      );
+      BackgroundTimer.setTimeout(() => this.setState({loading: false}), 2000);
+    } catch (err) {
+      console.warn('AskPermission', err);
+    }
+  };
 
   NotificationAtt(message) {
     const PushNotification = require('react-native-push-notification');
@@ -68,10 +62,6 @@ class CountdownTimer extends Component {
       message,
       soundName: 'scream.mp3',
     });
-  }
-
-  componentWillUnmount() {
-    BackgroundTimer.clearInterval(this.interval);
   }
 
   playScream = () => {
@@ -151,7 +141,6 @@ class CountdownTimer extends Component {
         300000,
       );
       this.setState({TimeToDeath, retrieved: true});
-      // return await this.AskPermission();
     }
   };
 
@@ -290,7 +279,7 @@ class CountdownTimer extends Component {
   };
 
   render() {
-    if (!this.state.loading) {
+    if (this.state.loading) {
       return (
         <LoadingView>
           <UIActivityIndicator color="#bbb" />

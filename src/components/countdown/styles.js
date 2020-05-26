@@ -1,10 +1,10 @@
 import styled from 'styled-components/native';
 import {Dimensions, Platform, PixelRatio} from 'react-native';
 
-const {height: SCREEN_HEIGHT} = Dimensions.get('window');
-const scale = SCREEN_HEIGHT / 775; // Redmi Note 7
+function responsive(size) {
+  const {height: SCREEN_HEIGHT} = Dimensions.get('window');
+  const scale = SCREEN_HEIGHT / 775; // Redmi Note 7
 
-export function responsive(size) {
   const newSize = size * scale;
   if (Platform.OS === 'ios') {
     return Math.round(PixelRatio.roundToNearestPixel(newSize));
