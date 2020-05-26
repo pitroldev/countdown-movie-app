@@ -28,9 +28,6 @@ class CountdownTimer extends Component {
 
   componentDidMount() {
     this.AskPermission();
-    this.getTimeToDeath();
-    BackgroundTimer.setTimeout(() => this.playScream(), 30000);
-    this.interval = BackgroundTimer.setInterval(() => this.EndTime(), 1000);
   }
 
   componentWillUnmount() {
@@ -49,7 +46,10 @@ class CountdownTimer extends Component {
       await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
       );
+      this.getTimeToDeath();
       BackgroundTimer.setTimeout(() => this.setState({loading: false}), 2000);
+      BackgroundTimer.setTimeout(() => this.playScream(), 30000);
+      this.interval = BackgroundTimer.setInterval(() => this.EndTime(), 1000);
     } catch (err) {
       console.warn('AskPermission', err);
     }
