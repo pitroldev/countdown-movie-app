@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {PermissionsAndroid} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import DeviceInfo from 'react-native-device-info';
 import {
   View,
   LoadingView,
@@ -61,6 +62,8 @@ class CountdownTimer extends Component {
       vibration: 1500,
       message,
       soundName: 'scream.mp3',
+      largeIcon: 'icon',
+      smallIcon: 'ic_stat',
     });
   }
 
@@ -93,7 +96,6 @@ class CountdownTimer extends Component {
           BackgroundTimer.setTimeout(async () => {
             this.NotificationAtt(':)');
 
-            await AsyncStorage.removeItem('@TimeToDeath');
             return BackgroundTimer.clearInterval(this.interval);
           }, 0);
         }
@@ -122,16 +124,22 @@ class CountdownTimer extends Component {
       if (storage === null || storage === undefined) {
         throw new Error();
       }
+      const now = new Date();
+      if (TimeToDeath <= now) {
+        BackgroundTimer.clearInterval(this.interval);
+        this.setState({seconds: 0, minutes: 0, hours: 0, days: 0, years: 0});
+      }
+
       return this.setState({TimeToDeath, retrieved: true});
     } catch (err) {
-      const Today = new Date();
-      const year = Today.getFullYear();
-      const month = Today.getMonth();
-      const day = Today.getDate();
-      const EndDate = new Date(year + 60, month, day);
-      const TimeToDeath = new Date(
-        Today.getTime() + Math.random() * (EndDate.getTime() - Today.getTime()),
-      );
+      const TimeToDeath = new Date();
+      const IdInt = parseInt(DeviceInfo.getUniqueId(), 16);
+      let ms = IdInt / 10000000;
+      while (ms > 1900000000000) {
+        ms / 2;
+      }
+      TimeToDeath.setMilliseconds(TimeToDeath.getMilliseconds() + ms);
+
       await AsyncStorage.removeItem('@TimeToDeath');
       await AsyncStorage.setItem('@TimeToDeath', JSON.stringify(TimeToDeath));
 
