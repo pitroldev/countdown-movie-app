@@ -24,6 +24,7 @@ export const LoadingView = styled.View`
   flex: 1;
   justify-content: center;
 `;
+
 export const Row = styled.View`
   flex-direction: row;
   justify-content: center;

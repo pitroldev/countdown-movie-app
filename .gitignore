@@ -1,3 +1,4 @@
+android/*.properties
 android/gradle.properties
 android/app/countdown-key.keystore
 
