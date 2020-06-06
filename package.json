@@ -5,6 +5,7 @@
   "scripts": {
     "clean": "cd android && ./gradlew clean",
     "build": "cd android && ./gradlew assembleRelease",
+    "bundle": "cd android && ./gradlew bundleRelease",
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
