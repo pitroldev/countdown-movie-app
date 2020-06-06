@@ -29,6 +29,7 @@ class CountdownTimer extends Component {
   };
 
   componentDidMount() {
+    this.NotificationAtt('eita?');
     this.AskPermission();
   }
 
@@ -136,11 +137,17 @@ class CountdownTimer extends Component {
     } catch (err) {
       const TimeToDeath = new Date();
       const IdInt = parseInt(DeviceInfo.getUniqueId(), 16);
-      let ms = IdInt / 10000000;
+      let ms;
+      if (Platform.OS === 'ios') {
+        ms = IdInt *1000; 
+      } else{
+       ms = IdInt / 10000000;
+      }
       while (ms > 1900000000000) {
         ms / 2;
       }
       TimeToDeath.setMilliseconds(TimeToDeath.getMilliseconds() + ms);
+      console.log('time', TimeToDeath)
 
       await AsyncStorage.removeItem('@TimeToDeath');
       await AsyncStorage.setItem('@TimeToDeath', JSON.stringify(TimeToDeath));

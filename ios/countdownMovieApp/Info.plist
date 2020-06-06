@@ -3,15 +3,17 @@
 <plist version="1.0">
   <dict>
     <key>NSCameraUsageDescription</key>
-    <string>Permission</string>
+    <string>Countdown</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Countdown</string>
     <key>NSMicrophoneUsageDescription</key>
-    <string>Permission</string>
+    <string>Countdown</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Permission</string>
+    <string>Countdown</string>
     <key>NSLocationAlwaysUsageDescription</key>
-    <string>Permission</string>
+    <string>Countdown</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Permission</string>
+    <string>Countdown</string>
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleDisplayName</key>
