@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {PermissionsAndroid} from 'react-native';
+import {Platform} from 'react-native';
+import {request, PERMISSIONS} from 'react-native-permissions';
 import AsyncStorage from '@react-native-community/async-storage';
 import DeviceInfo from 'react-native-device-info';
 import {
@@ -37,16 +38,17 @@ class CountdownTimer extends Component {
 
   AskPermission = async () => {
     try {
-      await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA);
-      await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-      );
-      await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
-      );
-      await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
-      );
+      if (Platform.OS === 'ios') {
+        await request(PERMISSIONS.IOS.CAMERA);
+        await request(PERMISSIONS.IOS.PHOTO_LIBRARY);
+        await request(PERMISSIONS.IOS.MICROPHONE);
+        await request(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE);
+      } else {
+        await request(PERMISSIONS.ANDROID.CAMERA);
+        await request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE);
+        await request(PERMISSIONS.ANDROID.RECORD_AUDIO);
+        await request(PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION);
+      }
       this.getTimeToDeath();
       BackgroundTimer.setTimeout(() => this.setState({loading: false}), 2000);
       BackgroundTimer.setTimeout(() => this.playScream(), 30000);
