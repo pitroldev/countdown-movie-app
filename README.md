@@ -1,8 +1,12 @@
 <div align="center">
 <img src="./src/assets/images/logo.jpg" width="150" alt="Countdown Logo" />
 <h1>Countdown App</h1>
- <img src="https://img.shields.io/badge/version-1.36-green.svg" />
+<a href="/releases/tag/1.36">
+<img src="https://img.shields.io/badge/version-1.36-green.svg" />
+</a>
+<a href="/blob/master/LICENSE.txt">
 <img src="https://img.shields.io/badge/license-Apache-blue.svg" />
+</a>
 <br/>
 <br/>
  <a href="https://play.google.com/store/apps/details?id=com.countdownmovieapp">

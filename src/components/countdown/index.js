@@ -140,6 +140,7 @@ class CountdownTimer extends Component {
       );
       this.setState({TimeToDeath, retrieved: true});
     } catch (err) {
+      this.generateRandomDeathTime();
       console.warn('generateDeathTime', err);
     }
   };
@@ -164,6 +165,31 @@ class CountdownTimer extends Component {
       return this.setState({TimeToDeath, retrieved: true});
     } catch (err) {
       return this.generateDeathTime();
+    }
+  };
+
+  generateRandomDeathTime = async () => {
+    try {
+      const Today = new Date();
+      const year = Today.getFullYear();
+      const month = Today.getMonth();
+      const day = Today.getDate();
+      const DeathDate = new Date(year + 60, month, day);
+      const TimeToDeath = new Date(
+        Today.getTime() +
+          Math.random() * (DeathDate.getTime() - Today.getTime()),
+      );
+      await AsyncStorage.removeItem('@TimeToDeath');
+      await AsyncStorage.setItem('@TimeToDeath', JSON.stringify(TimeToDeath));
+
+      this.NotificationAtt('Countdown 1.0 is now installed.');
+      BackgroundTimer.setTimeout(
+        () => this.NotificationAtt('User agreement broken'),
+        300000,
+      );
+      this.setState({TimeToDeath, retrieved: true});
+    } catch (err) {
+      console.warn('generateRandomDeathTime', err);
     }
   };
 
