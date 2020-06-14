@@ -26,7 +26,7 @@
 
 - Improving my knowledge in React-Native while building a responsive frontend design.
 
-### 🎨 Preview
+## 🎨 Preview
 
 <div>
 <IMG SRC="./resources/animation.gif" width="250">
