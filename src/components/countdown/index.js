@@ -29,15 +29,17 @@ class CountdownTimer extends Component {
   };
 
   componentDidMount() {
-    this.NotificationAtt('eita?');
-    this.AskPermission();
+    this.askPermission();
+    this.getTimeToDeath();
+    BackgroundTimer.setTimeout(() => this.playScream(), 30000);
+    this.interval = BackgroundTimer.setInterval(() => this.deathTimer(), 1000);
   }
 
   componentWillUnmount() {
     BackgroundTimer.clearInterval(this.interval);
   }
 
-  AskPermission = async () => {
+  askPermission = async () => {
     try {
       if (Platform.OS === 'ios') {
         await request(PERMISSIONS.IOS.CAMERA);
@@ -50,16 +52,13 @@ class CountdownTimer extends Component {
         await request(PERMISSIONS.ANDROID.RECORD_AUDIO);
         await request(PERMISSIONS.ANDROID.ACCESS_COARSE_LOCATION);
       }
-      this.getTimeToDeath();
       BackgroundTimer.setTimeout(() => this.setState({loading: false}), 2000);
-      BackgroundTimer.setTimeout(() => this.playScream(), 30000);
-      this.interval = BackgroundTimer.setInterval(() => this.EndTime(), 1000);
     } catch (err) {
-      console.warn('AskPermission', err);
+      console.warn('askPermission', err);
     }
   };
 
-  NotificationAtt(message) {
+  notificationAtt(message) {
     const PushNotification = require('react-native-push-notification');
     PushNotification.localNotification({
       vibration: 1500,
@@ -84,35 +83,64 @@ class CountdownTimer extends Component {
     }
   };
 
-  randomScreamTime = (FinalHour) => {
+  randomizeScream = (FinalHour) => {
     if (FinalHour) {
       return Math.floor(Math.random() * 7000);
     }
     return Math.floor(Math.random() * 100000);
   };
 
-  checkTimeToSound = () => {
+  soundCheck = () => {
     const {years, days, minutes, retrieved, seconds} = this.state;
     if (years === 0 && days === 0 && retrieved) {
       if (minutes < 10) {
         if (seconds < 2) {
           BackgroundTimer.setTimeout(async () => {
-            this.NotificationAtt(':)');
+            this.notificationAtt(':)');
 
             return BackgroundTimer.clearInterval(this.interval);
           }, 0);
         }
-        const time = this.randomScreamTime(true);
+        const time = this.randomizeScream(true);
         const waiting = BackgroundTimer.setTimeout(() => {
           this.playScream();
         }, time);
         return waiting;
       }
-      const time = this.randomScreamTime();
+      const time = this.randomizeScream();
       const waiting = BackgroundTimer.setTimeout(() => {
         this.playScream();
       }, time);
       return waiting;
+    }
+  };
+
+  generateDeathTime = async () => {
+    try {
+      const TimeToDeath = new Date();
+      const IdInt = parseInt(DeviceInfo.getUniqueId(), 16);
+      let ms;
+      if (Platform.OS === 'ios') {
+        ms = IdInt * 1000;
+      } else {
+        ms = IdInt / 10000000;
+      }
+      while (ms > 1900000000000) {
+        ms / 2;
+      }
+      TimeToDeath.setMilliseconds(TimeToDeath.getMilliseconds() + ms);
+
+      await AsyncStorage.removeItem('@TimeToDeath');
+      await AsyncStorage.setItem('@TimeToDeath', JSON.stringify(TimeToDeath));
+
+      this.notificationAtt('Countdown 1.0 is now installed.');
+      BackgroundTimer.setTimeout(
+        () => this.notificationAtt('User agreement broken'),
+        300000,
+      );
+      this.setState({TimeToDeath, retrieved: true});
+    } catch (err) {
+      console.warn('generateDeathTime', err);
     }
   };
 
@@ -121,7 +149,7 @@ class CountdownTimer extends Component {
       const storage = await AsyncStorage.getItem('@TimeToDeath');
       const TimeToDeath = new Date(JSON.parse(storage));
       BackgroundTimer.setTimeout(
-        () => this.NotificationAtt('User agreement broken'),
+        () => this.notificationAtt('User agreement broken'),
         300000,
       );
       if (storage === null || storage === undefined) {
@@ -135,34 +163,12 @@ class CountdownTimer extends Component {
 
       return this.setState({TimeToDeath, retrieved: true});
     } catch (err) {
-      const TimeToDeath = new Date();
-      const IdInt = parseInt(DeviceInfo.getUniqueId(), 16);
-      let ms;
-      if (Platform.OS === 'ios') {
-        ms = IdInt *1000; 
-      } else{
-       ms = IdInt / 10000000;
-      }
-      while (ms > 1900000000000) {
-        ms / 2;
-      }
-      TimeToDeath.setMilliseconds(TimeToDeath.getMilliseconds() + ms);
-      console.log('time', TimeToDeath)
-
-      await AsyncStorage.removeItem('@TimeToDeath');
-      await AsyncStorage.setItem('@TimeToDeath', JSON.stringify(TimeToDeath));
-
-      this.NotificationAtt('Countdown 1.0 is now installed.');
-      BackgroundTimer.setTimeout(
-        () => this.NotificationAtt('User agreement broken'),
-        300000,
-      );
-      this.setState({TimeToDeath, retrieved: true});
+      return this.generateDeathTime();
     }
   };
 
-  EndTime = () => {
-    this.checkTimeToSound();
+  deathTimer = () => {
+    this.soundCheck();
     const now = new Date();
     const {TimeToDeath} = this.state;
     const distance = TimeToDeath.getTime() - now.getTime();

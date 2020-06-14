@@ -1,6 +1,6 @@
 {
   "name": "countdownMovieApp",
-  "version": "1.0.0",
+  "version": "1.37",
   "private": true,
   "scripts": {
     "clean": "cd android && ./gradlew clean",
@@ -14,6 +14,7 @@
     "lint": "eslint ."
   },
   "author": "Petro Cardoso",
+  "license": "Apache",
   "dependencies": {
     "@react-native-community/async-storage": "^1.10.1",
     "@react-native-community/push-notification-ios": "^1.2.0",

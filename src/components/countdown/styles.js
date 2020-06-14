@@ -47,12 +47,12 @@ export const RedText = styled.Text`
   font-size: ${responsive(120)}px;
   font-family: 'DINSchrift';
   top: 6%;
-  color: #f00;
+  color: #ba090f;
 `;
 
 export const LittleRedText = styled.Text`
   font-size: ${responsive(30)}px;
   font-family: 'DINSchrift';
-  color: #f00;
+  color: #ba090f;
   align-self: flex-end;
 `;
