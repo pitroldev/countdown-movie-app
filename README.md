@@ -20,7 +20,7 @@
 
 ## 📅 Date Generation
 
-    The *"death date"* is generated based on the Device HardwareID, the reason for that is to prevent a different date from being generated if the user reinstall or deletes the application data.
+    The *"death date"* is generated based on the device HardwareID, the reason for that is to prevent a different date from being generated if the user reinstall or deletes the application data.
 
 ## 🚀 Motivation
 
@@ -30,10 +30,10 @@
 
 - Improving my knowledge in React-Native while building a responsive frontend design.
 
-### 🎨 Preview
+## 🎨 Preview
 
 <div>
 <IMG SRC="./resources/animation.gif" width="250">
 <IMG SRC="./resources/countdown.jpeg" width="250">
-<IMG SRC="./resources/countdown-movie-poster.jpg" width="502">
+<IMG SRC="./resources/countdown-movie-poster.jpg" width="504">
 </div>
