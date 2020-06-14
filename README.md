@@ -24,7 +24,7 @@
 
 - Study local only notifications and how to trigger sound when app is on background.
 
-- Improve my knowledge in React-Native while building a frontend responsive design.
+- Improve my knowledge in React-Native while building a responsive frontend design.
 
 ### 🎨 Preview
 
