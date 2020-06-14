@@ -16,20 +16,20 @@
 
 ## 📅 Date Generation
 
-    The *"death date"* is generated based on the Device HardwareID, the reason for this is to prevent a different date from being generated if the user reinstall or deletes the application data.
+    The *"death date"* is generated based on the Device HardwareID, the reason for that is to prevent a different date from being generated if the user reinstall or deletes the application data.
 
 ## 🚀 Motivation
 
-- Make an exact copy of the movie application and and post it on Google Play.
+- Making an exact copy of the movie application and and post it on Google Play.
 
-- Study local only notifications and how to trigger sound when app is on background.
+- Studying local only notifications and how to trigger sound when app is on background.
 
-- Improve my knowledge in React-Native while building a responsive frontend design.
+- Improving my knowledge in React-Native while building a responsive frontend design.
 
 ### 🎨 Preview
 
 <div>
 <IMG SRC="./resources/animation.gif" width="250">
 <IMG SRC="./resources/countdown.jpeg" width="250">
-<IMG SRC="./resources/countdown-movie-poster.jpg" width="500">
+<IMG SRC="./resources/countdown-movie-poster.jpg" width="502">
 </div>
