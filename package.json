@@ -1,6 +1,6 @@
 {
   "name": "countdownMovieApp",
-  "version": "1.37",
+  "version": "1.40",
   "private": true,
   "scripts": {
     "clean": "cd android && ./gradlew clean",
