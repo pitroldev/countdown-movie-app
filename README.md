@@ -21,11 +21,11 @@ The _"death date"_ is generated based on the device HardwareID, the reason for t
 
 ## 🚀 Motivation
 
-- Making an exact copy of the movie application and and post it on Google Play.
+- Making an exact copy of the movie application.
 
 - Studying local only notifications and how to trigger sound when app is on background.
 
-- Improving my knowledge in React-Native while building a responsive frontend design.
+- Making a countdown timer from scratch.
 
 ## 🎨 Preview
 
